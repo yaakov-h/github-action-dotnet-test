@@ -5,7 +5,7 @@ workflow "Build and deploy container on push" {
 
 action "GitHub Action for Docker" {
   uses = "actions/docker/cli@76ff57a"
-  args = "build . -t yaakovh/github-action-dotnet-test"
+  args = "build . -t github-action-dotnet-test"
 }
 
 action "On master branch only" {
@@ -17,7 +17,7 @@ action "On master branch only" {
 action "Tag new container" {
   uses = "actions/docker/tag@76ff57a"
   needs = ["On master branch only"]
-  args = "yaakovh/github-action-dotnet-test"
+  args = "github-action-dotnet-test yaakovh/github-action-dotnet-test"
 }
 
 action "Log in to Docker Hub" {
