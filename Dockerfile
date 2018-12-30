@@ -1,4 +1,4 @@
-FROM microsoft/dotnet:2.2-sdk-alpine
+FROM microsoft/dotnet:2.2-sdk
 
 LABEL "com.github.actions.name"=".NET Core Test Runner"
 LABEL "com.github.actions.description"="Builds a repository and runs tests for .NET Core"
