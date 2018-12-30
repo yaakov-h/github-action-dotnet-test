@@ -1,17 +1,20 @@
 workflow "Build and deploy container on push" {
   on = "push"
-  resolves = ["GitHub Action for Docker-1", "GitHub Action for Docker"]
+  resolves = [
+    "Build new container",
+    "Deploy new container",
+  ]
 }
 
-action "GitHub Action for Docker" {
+action "Build new container" {
   uses = "actions/docker/cli@76ff57a"
   args = "build . -t github-action-dotnet-test"
 }
 
 action "On master branch only" {
   uses = "actions/bin/filter@b2bea07"
-  needs = ["GitHub Action for Docker"]
   args = "branch master"
+  needs = ["Build new container"]
 }
 
 action "Tag new container" {
@@ -26,7 +29,7 @@ action "Log in to Docker Hub" {
   secrets = ["DOCKER_USERNAME", "DOCKER_PASSWORD"]
 }
 
-action "GitHub Action for Docker-1" {
+action "Deploy new container" {
   uses = "actions/docker/cli@76ff57a"
   args = "push yaakovh/github-action-dotnet-test"
   needs = ["Log in to Docker Hub"]
